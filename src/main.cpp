@@ -5,28 +5,39 @@
  * then off for one second, repeatedly.
  */
 #include "Arduino.h"
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
 
-#ifndef LED_BUILTIN
-#define LED_BUILTIN 13
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+
+#ifndef SERVOMIN
+#define SERVOMIN 150
 #endif
+
+#ifndef SERVOMAX
+#define SERVOMAX 600
+#endif
+
+uint8_t servonum = 0;
 
 void setup()
 {
-  // initialize LED digital pin as an output.
-  pinMode(LED_BUILTIN, OUTPUT);
+  pwm.begin();
+  pwm.setPWMFreq(60);
+  delay(10);
 }
 
 void loop()
 {
-  // turn the LED on (HIGH is the voltage level)
-  digitalWrite(LED_BUILTIN, HIGH);
+  for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen++) {
+    pwm.setPWM(servonum, 0, pulselen);
+  }
+  delay(500);
+  for (uint16_t pulselen = SERVOMAX; pulselen > SERVOMIN; pulselen--) {
+    pwm.setPWM(servonum, 0, pulselen);
+  }
+  delay(500);
 
-  // wait for a second
-  delay(1000);
-
-  // turn the LED off by making the voltage LOW
-  digitalWrite(LED_BUILTIN, LOW);
-
-   // wait for a second
-  delay(1000);
+  servonum ++;
+  if (servonum > 4) servonum = 0;
 }
