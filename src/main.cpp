@@ -59,18 +59,4 @@ void loop()
   pwm.setPWM(servo1num, 0, servo1pos);
 
   delay(5);
-
-
-  // Serial.print("leftright: "); Serial.println(leftright);
-  // Serial.print("updown:    "); Serial.println(updown);
-  //
-  // delay(1000);
-
-
-  // for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen++) {
-  //   Serial.print("Pulse Length: "); Serial.println(pulselen);
-  //   delay(10);
-  //   pwm.setPWM(servonum, 0, pulselen);
-  // }
-  // pwm.setPWM(servonum, 0, SERVOMIN);
 }
