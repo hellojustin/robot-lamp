@@ -11,17 +11,19 @@
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 #ifndef SERVOMIN
-#define SERVOMIN 150
+#define SERVOMIN 110
 #endif
 
 #ifndef SERVOMAX
-#define SERVOMAX 600
+#define SERVOMAX 570
 #endif
 
 uint8_t servonum = 0;
 
 void setup()
 {
+  Serial.begin(9600);
+  Serial.println("Servo speed control test!");
   pwm.begin();
   pwm.setPWMFreq(60);
   delay(10);
@@ -30,14 +32,13 @@ void setup()
 void loop()
 {
   for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen++) {
+    Serial.print("Pulse Length: "); Serial.println(pulselen);
+    delay(10);
     pwm.setPWM(servonum, 0, pulselen);
   }
+  pwm.setPWM(servonum, 0, SERVOMIN);
+  // for (uint16_t pulselen = SERVOMAX; pulselen > SERVOMIN; pulselen--) {
+  //   pwm.setPWM(servonum, 0, pulselen);
+  // }
   delay(500);
-  for (uint16_t pulselen = SERVOMAX; pulselen > SERVOMIN; pulselen--) {
-    pwm.setPWM(servonum, 0, pulselen);
-  }
-  delay(500);
-
-  servonum ++;
-  if (servonum > 4) servonum = 0;
 }
